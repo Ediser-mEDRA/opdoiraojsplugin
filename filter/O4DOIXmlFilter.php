@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file plugins/generic/medra/filter/O4DOIXmlFilter.php
+ * @file plugins/generic/opdoira/filter/O4DOIXmlFilter.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2000-2024 John Willinsky
@@ -12,7 +12,7 @@
  * @brief Basis class for converting objects (issues, articles, galleys) to a O4DOI XML document.
  */
 
-namespace APP\plugins\generic\medra\filter;
+namespace APP\plugins\generic\opdoira\filter;
 
 use APP\core\Application;
 use APP\issue\Issue;
@@ -155,7 +155,7 @@ abstract class O4DOIXmlFilter extends NativeExportFilter
         $headNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'FromCompany', htmlspecialchars($plugin->getSetting($context->getId(), 'fromCompany'), ENT_COMPAT, 'UTF-8')));
         $headNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'FromPerson',  htmlspecialchars($plugin->getSetting($context->getId(), 'fromName'), ENT_COMPAT, 'UTF-8')));
         $headNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'FromEmail',  htmlspecialchars($plugin->getSetting($context->getId(), 'fromEmail'), ENT_COMPAT, 'UTF-8')));
-        $headNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'ToCompany',  'mEDRA'));
+        $headNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'ToCompany',  'OP DOI RA'));
         $headNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'SentDate',  date('YmdHi')));
         // Message note
         $app = Application::get();

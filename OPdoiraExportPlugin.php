@@ -1,24 +1,24 @@
 <?php
 
 /**
- * @file plugins/generic/medra/MedraExportPlugin.php
+ * @file plugins/generic/opdoira/OPdoiraExportPlugin.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2003-2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class MedraExportPlugin
+ * @class OPdoiraExportPlugin
  *
- * @brief mEDRA Onix for DOI (O4DOI) export/registration plugin.
+ * @brief OP DOI RA Onix for DOI (O4DOI) export/registration plugin.
  */
 
-namespace APP\plugins\generic\medra;
+namespace APP\plugins\generic\opdoira;
 
 use APP\core\Application;
 use APP\facades\Repo;
 use APP\issue\Issue;
 use APP\plugins\DOIPubIdExportPlugin;
-use APP\plugins\generic\medra\classes\MedraWebservice;
+use APP\plugins\generic\opdoira\classes\OPdoiraWebservice;
 use APP\publication\Publication;
 use APP\submission\Submission;
 use DOMDocument;
@@ -32,9 +32,9 @@ use PKP\file\TemporaryFileManager;
 use PKP\i18n\LocaleConversion;
 
 
-class MedraExportPlugin extends DOIPubIdExportPlugin
+class OPdoiraExportPlugin extends DOIPubIdExportPlugin
 {
-    public function __construct(protected MedraPlugin $agencyPlugin)
+    public function __construct(protected OPdoiraPlugin $agencyPlugin)
     {
         parent::__construct();
     }
@@ -44,7 +44,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getName()
     {
-        return 'MedraExportPlugin';
+        return 'OPdoiraExportPlugin';
     }
 
     /**
@@ -52,7 +52,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getDisplayName()
     {
-        return __('plugins.importexport.medra.displayName');
+        return __('plugins.importexport.opdoira.displayName');
     }
 
     /**
@@ -60,7 +60,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getDescription()
     {
-        return __('plugins.importexport.medra.description');
+        return __('plugins.importexport.opdoira.description');
     }
 
     /**
@@ -68,7 +68,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getSubmissionFilter()
     {
-        return 'article=>medra-xml';
+        return 'article=>opdoira-xml';
     }
 
     /**
@@ -76,7 +76,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getIssueFilter()
     {
-        return 'issue=>medra-xml';
+        return 'issue=>opdoira-xml';
     }
 
     /**
@@ -84,7 +84,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getRepresentationFilter()
     {
-        return 'galley=>medra-xml';
+        return 'galley=>opdoira-xml';
     }
 
     /**
@@ -92,7 +92,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getPluginSettingsPrefix()
     {
-        return 'medra';
+        return 'opdoira';
     }
 
     /**
@@ -108,7 +108,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
      */
     public function getExportDeploymentClassName()
     {
-        return '\APP\plugins\generic\medra\MedraExportDeployment';
+        return '\APP\plugins\generic\opdoira\OPdoiraExportDeployment';
     }
 
     /**
@@ -154,7 +154,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
     }
 
     /**
-     * Exports and registers XML for each Submission or Issue with mEDRA.
+     * Exports and registers XML for each Submission or Issue with OP DOI RA.
      *
      * @param DataObject[] $objects
      */
@@ -185,7 +185,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
             $exportErrors = [];
             $exportXml = $this->exportXML([$object], $filter, $context, $noValidation, $exportErrors);
             // Write the XML to a file.
-            // export file name example: medra-20160723-160036-articles-1-1.xml
+            // export file name example: opdoira-20160723-160036-articles-1-1.xml
             $objectFileNamePart = $this->_getObjectFileNamePart($object);
             $exportFileName = $this->getExportFileName($this->getExportPath(), $objectFileNamePart, $context, '.xml');
             $fileManager->writeFile($exportFileName, $exportXml);
@@ -204,7 +204,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
         // Prepare response message and return status
         if (empty($resultErrors)) {
             if ($errorsOccurred) {
-                $responseMessage = 'plugins.generic.medra.deposit.unsuccessful';
+                $responseMessage = 'plugins.generic.opdoira.deposit.unsuccessful';
                 return false;
             } else {
                 $responseMessage = $this->getDepositSuccessNotificationMessageKey();
@@ -217,7 +217,7 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
     }
 
     /**
-     * Registers XML with mEDRA.
+     * Registers XML with OP DOI RA.
      *
      * @see PubObjectsExportPlugin::depositXML()
      * @param Submission|Issue $objects
@@ -229,8 +229,8 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
         $crEnabled = $this->getSetting($context->getId(), 'crEnabled');
         $endpoint =
             ($this->isTestMode($context) ?
-                ($crEnabled ? MedraWebservice::MEDRA2CR_WS_ENDPOINT_DEV : MedraWebservice::MEDRA_WS_ENDPOINT_DEV) :
-                ($crEnabled ? MedraWebservice::MEDRA2CR_WS_ENDPOINT : MedraWebservice::MEDRA_WS_ENDPOINT));
+                ($crEnabled ? OPdoiraWebservice::OPDOIRA2CR_WS_ENDPOINT_DEV : OPdoiraWebservice::OPDOIRA_WS_ENDPOINT_DEV) :
+                ($crEnabled ? OPdoiraWebservice::OPDOIRA2CR_WS_ENDPOINT : OPdoiraWebservice::OPDOIRA_WS_ENDPOINT));
 
         // Get credentials.
         $username = $this->getSetting($context->getId(), 'username');
@@ -247,9 +247,9 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
             $language = $user3LetterLang;
         }
 
-        // Instantiate the mEDRA web service wrapper.
-        $ws = new MedraWebservice($endpoint, $username, $password);
-        // Register the XML with mEDRA (upload) or also with Crossref (deposit)
+        // Instantiate the OP DOI RA web service wrapper.
+        $ws = new OPdoiraWebservice($endpoint, $username, $password);
+        // Register the XML with OP DOI RA (upload) or also with Crossref (deposit)
         $result = $crEnabled ? $ws->deposit($xml, $language) : $ws->upload($xml);
 
         if ($result === true) {
@@ -323,15 +323,15 @@ class MedraExportPlugin extends DOIPubIdExportPlugin
     public function buildDepositErrorMsg(string $errNo, array $errors, string $xml): string
     {
         $errorMsg =
-            __('plugins.importexport.medra.crossref.error.cause') . PHP_EOL .
-            __('plugins.importexport.medra.crossref.error.number') . ': ' . $errNo . PHP_EOL .
-            __('plugins.importexport.medra.crossref.error.details') . ': ' . PHP_EOL . PHP_EOL;
+            __('plugins.importexport.opdoira.crossref.error.cause') . PHP_EOL .
+            __('plugins.importexport.opdoira.crossref.error.number') . ': ' . $errNo . PHP_EOL .
+            __('plugins.importexport.opdoira.crossref.error.details') . ': ' . PHP_EOL . PHP_EOL;
 
             foreach ($errors as $error) {
                 $errorMsg .=
-                    __('plugins.importexport.medra.crossref.error.code') . ': ' . $error['code'] . PHP_EOL .
-                    __('plugins.importexport.medra.crossref.error.element') . ': ' . $error['reference'] . PHP_EOL .
-                    __('plugins.importexport.medra.crossref.error.description') . ': ' . $error['description'] . PHP_EOL . PHP_EOL ;
+                    __('plugins.importexport.opdoira.crossref.error.code') . ': ' . $error['code'] . PHP_EOL .
+                    __('plugins.importexport.opdoira.crossref.error.element') . ': ' . $error['reference'] . PHP_EOL .
+                    __('plugins.importexport.opdoira.crossref.error.description') . ': ' . $error['description'] . PHP_EOL . PHP_EOL ;
             }
 
             $errorMsg .=

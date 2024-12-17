@@ -1,20 +1,20 @@
 <?php
 
 /**
- * @file plugins/generic/medra/classes/MedraSetting.php
+ * @file plugins/generic/opdoira/classes/OPdoiraSetting.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2003-2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class MedraSettings
+ * @class OPdoiraSettings
  *
- * @brief Setting management class to handle schema, fields, validation, etc. for mEDRA plugin
+ * @brief Setting management class to handle schema, fields, validation, etc. for OP DOI RA plugin
  */
 
-namespace APP\plugins\generic\medra\classes;
+namespace APP\plugins\generic\opdoira\classes;
 
-use APP\plugins\generic\medra\filter\O4DOIXmlFilter;
+use APP\plugins\generic\opdoira\filter\O4DOIXmlFilter;
 use PKP\components\forms\FieldHTML;
 use PKP\components\forms\FieldOptions;
 use PKP\components\forms\FieldSelect;
@@ -22,13 +22,13 @@ use PKP\components\forms\FieldText;
 use PKP\context\Context;
 use PKP\facades\Locale;
 
-class MedraSettings extends \PKP\doi\RegistrationAgencySettings
+class OPdoiraSettings extends \PKP\doi\RegistrationAgencySettings
 {
     public function getSchema(): \stdClass
     {
         return (object) [
-            'title' => 'mEDRA Plugin',
-            'description' => 'Registration agency plugin for mEDRA',
+            'title' => 'OP DOI RA Plugin',
+            'description' => 'Registration agency plugin for OP DOI RA',
             'type' => 'object',
             'required' => [
                 'registrantName',
@@ -103,53 +103,53 @@ class MedraSettings extends \PKP\doi\RegistrationAgencySettings
         });
 
         $exportIssueOptions = [
-            ['value' => O4DOIXmlFilter::O4DOI_ISSUE_AS_WORK, 'label' => __('plugins.importexport.medra.settings.form.work')],
-            ['value' => O4DOIXmlFilter::O4DOI_ISSUE_AS_MANIFESTATION, 'label' => __('plugins.importexport.medra.settings.form.manifestation')],
+            ['value' => O4DOIXmlFilter::O4DOI_ISSUE_AS_WORK, 'label' => __('plugins.importexport.opdoira.settings.form.work')],
+            ['value' => O4DOIXmlFilter::O4DOI_ISSUE_AS_MANIFESTATION, 'label' => __('plugins.importexport.opdoira.settings.form.manifestation')],
         ];
 
         return [
             new FieldHTML('preamble', [
-                'label' => __('plugins.importexport.medra.settings.label'),
+                'label' => __('plugins.importexport.opdoira.settings.label'),
                 'description' => $this->_getPreambleText(),
             ]),
             new FieldText('registrantName', [
-                'label' => __('plugins.importexport.medra.settings.form.registrantName.label'),
+                'label' => __('plugins.importexport.opdoira.settings.form.registrantName.label'),
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'registrantName'),
-                'description' => __('plugins.importexport.medra.settings.form.registrantName'),
+                'description' => __('plugins.importexport.opdoira.settings.form.registrantName'),
                 'isRequired' => true,
             ]),
             new FieldText('fromName', [
-                'label' => __('plugins.importexport.medra.settings.form.fromName'),
+                'label' => __('plugins.importexport.opdoira.settings.form.fromName'),
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'fromName'),
-                'description' => __('plugins.importexport.medra.settings.form.fromFields'),
+                'description' => __('plugins.importexport.opdoira.settings.form.fromFields'),
                 'isRequired' => true,
             ]),
             new FieldText('fromCompany', [
-                'label' => __('plugins.importexport.medra.settings.form.fromCompany'),
+                'label' => __('plugins.importexport.opdoira.settings.form.fromCompany'),
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'fromCompany'),
                 'isRequired' => true,
             ]),
             new FieldText('fromEmail', [
-                'label' => __('plugins.importexport.medra.settings.form.fromEmail'),
+                'label' => __('plugins.importexport.opdoira.settings.form.fromEmail'),
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'fromEmail'),
                 'isRequired' => true,
             ]),
             new FieldSelect('publicationCountry', [
                 'label' => __('common.country'),
-                'description' => __('plugins.importexport.medra.settings.form.publicationCountry'),
+                'description' => __('plugins.importexport.opdoira.settings.form.publicationCountry'),
                 'options' => $countries,
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'publicationCountry'),
                 'isRequired' => true,
             ]),
             new FieldSelect('exportIssuesAs', [
-                'label' => __('plugins.importexport.medra.settings.form.exportIssuesAs.label'),
-                'description' => __('plugins.importexport.medra.settings.form.exportIssuesAs'),
+                'label' => __('plugins.importexport.opdoira.settings.form.exportIssuesAs.label'),
+                'description' => __('plugins.importexport.opdoira.settings.form.exportIssuesAs'),
                 'options' => $exportIssueOptions,
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'exportIssuesAs'),
                 'isRequired' => true,
             ]),
             new FieldText('username', [
-                'label' => __('plugins.importexport.medra.settings.form.username'),
+                'label' => __('plugins.importexport.opdoira.settings.form.username'),
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'username'),
             ]),
             new FieldText('password', [
@@ -159,16 +159,16 @@ class MedraSettings extends \PKP\doi\RegistrationAgencySettings
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'password'),
             ]),
             new FieldOptions('crEnabled', [
-                'label' => __('plugins.importexport.medra.crossref.label'),
+                'label' => __('plugins.importexport.opdoira.crossref.label'),
                 'options' => [
-                    ['value' => true, 'label' => __('plugins.importexport.medra.crossref')],
+                    ['value' => true, 'label' => __('plugins.importexport.opdoira.crossref')],
                 ],
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'crEnabled'),
             ]),
             new FieldOptions('testMode', [
                 'label' => __('plugins.importexport.common.settings.form.testMode.label'),
                 'options' => [
-                    ['value' => true, 'label' => __('plugins.importexport.medra.settings.form.testMode.description')],
+                    ['value' => true, 'label' => __('plugins.importexport.opdoira.settings.form.testMode.description')],
                 ],
                 'value' => $this->agencyPlugin->getSetting($context->getId(), 'testMode'),
             ]),
@@ -178,8 +178,8 @@ class MedraSettings extends \PKP\doi\RegistrationAgencySettings
     protected function _getPreambleText(): string
     {
         $text = '';
-        $text .= '<p>' . __('plugins.importexport.medra.settings.description') . '</p>';
-        $text .= '<p>' . __('plugins.importexport.medra.intro') . '</p>';
+        $text .= '<p>' . __('plugins.importexport.opdoira.settings.description') . '</p>';
+        $text .= '<p>' . __('plugins.importexport.opdoira.intro') . '</p>';
         return $text;
     }
 }

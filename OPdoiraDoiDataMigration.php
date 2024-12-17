@@ -1,18 +1,18 @@
 <?php
 
 /**
- * @file plugins/generic/medra/MedraDoiDataMigration.php
+ * @file plugins/generic/opdoira/OPdoiraDoiDataMigration.php
  *
  * Copyright (c) 2024 Simon Fraser University
  * Copyright (c) 2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class MedraDoiDataMigration
+ * @class OPdoiraDoiDataMigration
  *
- * @brief Migrations for the mEDRA DOI settings
+ * @brief Migrations for the OP DOI RA DOI settings
  */
 
-namespace APP\plugins\generic\medra;
+namespace APP\plugins\generic\opdoira;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Query\Builder;
@@ -22,7 +22,7 @@ use PKP\doi\Doi;
 use PKP\file\FileManager;
 use PKP\install\DowngradeNotSupportedException;
 
-class MedraDoiDataMigration extends Migration
+class OPdoiraDoiDataMigration extends Migration
 {
 
     /**
@@ -30,28 +30,28 @@ class MedraDoiDataMigration extends Migration
      */
     public function up(): void
     {
-        $this->migrateMedraSettings();
+        $this->migrateOPdoiraSettings();
     }
 
-    public function migrateMedraSettings(): void
+    public function migrateOPdoiraSettings(): void
     {
         // ===== Filters ===== //
         // Old filters should not be there in 3.4 but
         // for a case there are, remove them.
         // The new filters will be installed with this plugin.
         $galleyFilterGroupId = DB::table('filters')
-            ->where('class_name', '=', 'plugins.importexport.medra.filter.GalleyMedraXmlFilter')
-            ->orWhere('class_name', '=', 'plugins.importexport.medra.filter.ArticleMedraXmlFilter')
-            ->orWhere('class_name', '=', 'plugins.importexport.medra.filter.IssueMedraXmlFilter')
+            ->where('class_name', '=', 'plugins.importexport.opdoira.filter.GalleyOPdoiraXmlFilter')
+            ->orWhere('class_name', '=', 'plugins.importexport.opdoira.filter.ArticleOPdoiraXmlFilter')
+            ->orWhere('class_name', '=', 'plugins.importexport.opdoira.filter.IssueOPdoiraXmlFilter')
             ->pluck('filter_group_id');
         DB::table('filter_groups')->whereIn('filter_group_id', $galleyFilterGroupId)->delete();
 
 
         // ===== Issues Statuses & Settings ===== //
-        // 1. Get issues with mEDRA-related info
+        // 1. Get issues with OP DOI RA-related info
         $issueData = DB::table('issues', 'i')
             ->leftJoin('issue_settings as iss', 'i.issue_id', '=', 'iss.issue_id')
-            ->whereIn('iss.setting_name', ['medra::registeredDoi', 'medra::status'])
+            ->whereIn('iss.setting_name', ['opdoira::registeredDoi', 'opdoira::status'])
             ->select(['i.issue_id', 'i.doi_id', 'iss.setting_name', 'iss.setting_value'])
             ->get()
             ->reduce(function ($carry, $item) {
@@ -70,15 +70,15 @@ class MedraDoiDataMigration extends Migration
         $registrationAgencies = [];
         foreach ($issueData as $item) {
             // Status
-            if (isset($item['medra::status'])) {
+            if (isset($item['opdoira::status'])) {
                 $status = Doi::STATUS_ERROR;
                 $registrationAgency = null;
-                if (in_array($item['medra::status'], ['found', 'registered', 'markedRegistered'])) {
-                    if ($item['medra::status'] === 'registered') {
-                        $registrationAgency = 'MedraExportPlugin';
+                if (in_array($item['opdoira::status'], ['found', 'registered', 'markedRegistered'])) {
+                    if ($item['opdoira::status'] === 'registered') {
+                        $registrationAgency = 'OPdoiraExportPlugin';
                     }
                     $status = Doi::STATUS_REGISTERED;
-                } elseif (isset($item['medra::registeredDoi'])) {
+                } elseif (isset($item['opdoira::registeredDoi'])) {
                     $status = Doi::STATUS_REGISTERED;
                 }
                 $statuses[$item['doi_id']] = ['status' => $status];
@@ -108,15 +108,15 @@ class MedraDoiDataMigration extends Migration
 
         // 4. Clean up old settings
         DB::table('issue_settings')
-            ->whereIn('setting_name', ['medra::registeredDoi', 'medra::status'])
+            ->whereIn('setting_name', ['opdoira::registeredDoi', 'opdoira::status'])
             ->delete();
 
         // ===== Publications Statuses & Settings ===== //
-        // 1. Get publications with mEDRA-related info
+        // 1. Get publications with OP DOI RA-related info
         $publicationData = DB::table('submissions', 's')
             ->leftJoin('submission_settings as ss', 's.submission_id', '=', 'ss.submission_id')
             ->leftJoin('publications as p', 's.current_publication_id', '=', 'p.publication_id')
-            ->whereIn('ss.setting_name', ['medra::registeredDoi', 'medra::status'])
+            ->whereIn('ss.setting_name', ['opdoira::registeredDoi', 'opdoira::status'])
             ->select(['p.publication_id', 'p.doi_id', 'ss.setting_name', 'ss.setting_value'])
             ->get()
             ->reduce(function ($carry, $item) {
@@ -135,15 +135,15 @@ class MedraDoiDataMigration extends Migration
         $registrationAgencies = [];
         foreach ($publicationData as $item) {
             // Status
-            if (isset($item['medra::status'])) {
+            if (isset($item['opdoira::status'])) {
                 $status = Doi::STATUS_ERROR;
                 $registrationAgency = null;
-                if (in_array($item['medra::status'], ['found', 'registered', 'markedRegistered'])) {
-                    if ($item['medra::status'] === 'registered') {
-                        $registrationAgency = 'MedraExportPlugin';
+                if (in_array($item['opdoira::status'], ['found', 'registered', 'markedRegistered'])) {
+                    if ($item['opdoira::status'] === 'registered') {
+                        $registrationAgency = 'OPdoiraExportPlugin';
                     }
                     $status = Doi::STATUS_REGISTERED;
-                } elseif (isset($item['medra::registeredDoi'])) {
+                } elseif (isset($item['opdoira::registeredDoi'])) {
                     $status = Doi::STATUS_REGISTERED;
                 }
                 $statuses[$item['doi_id']] = ['status' => $status];
@@ -162,7 +162,7 @@ class MedraDoiDataMigration extends Migration
             if ($agency === null) {
                 continue;
             }
-            // s. https://github.com/pkp/medra/issues/21 why we use upsert here
+            // s. https://github.com/pkp/opdoira/issues/21 why we use upsert here
             DB::table('doi_settings')
                 ->upsert(
                     [
@@ -177,14 +177,14 @@ class MedraDoiDataMigration extends Migration
 
         // 4. Clean up old settings
         DB::table('submission_settings')
-            ->whereIn('setting_name', ['medra::registeredDoi', 'medra::status'])
+            ->whereIn('setting_name', ['opdoira::registeredDoi', 'opdoira::status'])
             ->delete();
 
         // ===== Galleys Statuses & Settings ===== //
-        // 1. Get galleys with mEDRA-related info
+        // 1. Get galleys with OP DOI RA-related info
         $galleyData = DB::table('publication_galleys', 'pg')
             ->leftJoin('publication_galley_settings as pgs', 'pg.galley_id', '=', 'pgs.galley_id')
-            ->whereIn('pgs.setting_name', ['medra::registeredDoi', 'medra::status'])
+            ->whereIn('pgs.setting_name', ['opdoira::registeredDoi', 'opdoira::status'])
             ->select(['pg.galley_id', 'pg.doi_id', 'pgs.setting_name', 'pgs.setting_value'])
             ->get()
             ->reduce(function ($carry, $item) {
@@ -203,15 +203,15 @@ class MedraDoiDataMigration extends Migration
         $registrationAgencies = [];
         foreach ($galleyData as $item) {
             // Status
-            if (isset($item['medra::status'])) {
+            if (isset($item['opdoira::status'])) {
                 $status = Doi::STATUS_ERROR;
                 $registrationAgency = null;
-                if (in_array($item['medra::status'], ['found', 'registered', 'markedRegistered'])) {
-                    if ($item['medra::status'] === 'registered') {
-                        $registrationAgency = 'MedraExportPlugin';
+                if (in_array($item['opdoira::status'], ['found', 'registered', 'markedRegistered'])) {
+                    if ($item['opdoira::status'] === 'registered') {
+                        $registrationAgency = 'OPdoiraExportPlugin';
                     }
                     $status = Doi::STATUS_REGISTERED;
-                } elseif (isset($item['medra::registeredDoi'])) {
+                } elseif (isset($item['opdoira::registeredDoi'])) {
                     $status = Doi::STATUS_REGISTERED;
                 }
                 $statuses[$item['doi_id']] = ['status' => $status];
@@ -241,17 +241,17 @@ class MedraDoiDataMigration extends Migration
 
         // 4. Clean up old settings
         DB::table('publication_galley_settings')
-            ->whereIn('setting_name', ['medra::registeredDoi', 'medra::status'])
+            ->whereIn('setting_name', ['opdoira::registeredDoi', 'opdoira::status'])
             ->delete();
 
         // ===== General cleanup ===== //
 
-        // If any mEDRA settings are configured, assume plugin is in use and enable
+        // If any OP DOI RA settings are configured, assume plugin is in use and enable
         $contextsWithPluginEnabled = DB::table('journals')
             ->whereIn('journal_id', function (Builder $q) {
                 $q->select('context_id')
                     ->from('plugin_settings')
-                    ->where('plugin_name', '=', 'medraexportplugin');
+                    ->where('plugin_name', '=', 'opdoiraexportplugin');
             })
             ->select(['journal_id'])
             ->get();
@@ -259,7 +259,7 @@ class MedraDoiDataMigration extends Migration
             DB::table('plugin_settings')
                 ->insert(
                     [
-                        'plugin_name' => 'medraplugin',
+                        'plugin_name' => 'opdoiraplugin',
                         'context_id' => $item->journal_id,
                         'setting_name' => 'enabled',
                         'setting_value' => 1,
@@ -273,7 +273,7 @@ class MedraDoiDataMigration extends Migration
             ->whereIn('journal_id', function (Builder $q) {
                 $q->select(['context_id'])
                     ->from('plugin_settings')
-                    ->where('plugin_name', '=', 'medraexportplugin')
+                    ->where('plugin_name', '=', 'opdoiraexportplugin')
                     ->where('setting_name', '=', 'automaticRegistration')
                     ->where('setting_value', '=', 1) ;
             })
@@ -293,24 +293,24 @@ class MedraDoiDataMigration extends Migration
         });
 
         DB::table('plugin_settings')
-            ->where('plugin_name', '=', 'medraexportplugin')
+            ->where('plugin_name', '=', 'opdoiraexportplugin')
             ->where('setting_name', '=', 'automaticRegistration')
             ->delete();
 
         DB::table('plugin_settings')
-            ->where('plugin_name', '=', 'medraexportplugin')
-            ->update(['plugin_name' => 'medraplugin']);
+            ->where('plugin_name', '=', 'opdoiraexportplugin')
+            ->update(['plugin_name' => 'opdoiraplugin']);
 
         // Delete no-longer-in-use version for importExport plugin
         DB::table('versions')
             ->where('product_type', '=', 'plugins.importexport')
-            ->where('product', '=', 'medra')
+            ->where('product', '=', 'opdoira')
             ->delete();
 
         // Delete no-longer-in-use files for importExport plugin, in case there are still there.
         $fileManager = new FileManager();
-        $oldMedraImportExportPlugin = Core::getBaseDir() . '/plugins/importexport/medra';
-        $fileManager->rmtree($oldMedraImportExportPlugin);
+        $oldOPddoiraImportExportPlugin = Core::getBaseDir() . '/plugins/importexport/opdoira';
+        $fileManager->rmtree($oldOPdoiraImportExportPlugin);
     }
 
     /**

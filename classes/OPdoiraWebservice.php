@@ -1,19 +1,19 @@
 <?php
 
 /**
- * @file plugins/generic/medra/classes/MedraWebservice.php
+ * @file plugins/generic/opdoira/classes/OPdoiraWebservice.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2003-2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class MedraWebservice
+ * @class OPdoiraWebservice
  *
- * @brief A wrapper for the mEDRA web service 2.0.
+ * @brief A wrapper for the OP DOI RA web service 2.0.
  *
  */
 
-namespace APP\plugins\generic\medra\classes;
+namespace APP\plugins\generic\opdoira\classes;
 
 use APP\core\Application;
 use DOMDocument;
@@ -21,18 +21,18 @@ use PKP\core\PKPString;
 use PKP\xml\XMLNode;
 
 
-class MedraWebservice
+class OPdoiraWebservice
 {
-    public const MEDRA_WS_ENDPOINT_DEV = 'https://www-medra-dev.medra.org/servlet/ws/medraWS';
-    public const MEDRA2CR_WS_ENDPOINT_DEV = 'https://www-medra-dev.medra.org/servlet/ws/CRProxy';
-    public const MEDRA_WS_ENDPOINT = 'https://www.medra.org/servlet/ws/medraWS';
-    public const MEDRA2CR_WS_ENDPOINT = 'https://www.medra.org/servlet/ws/CRProxy';
-    public const MEDRA_WS_RESPONSE_OK  = 200;
+    public const OPDOIRA_WS_ENDPOINT_DEV = 'https://ra-publications-dev.medra.org/servlet/ws/opoceWS';
+    public const OPDOIRA2CR_WS_ENDPOINT_DEV = 'https://ra-publications-dev.medra.org/servlet/ws/CRProxy';
+    public const OPDOIRA_WS_ENDPOINT = 'https://ra.publications.europa.eu/servlet/ws/opoceWS';
+    public const OPDOIRA2CR_WS_ENDPOINT = 'https://ra.publications.europa.eu/servlet/ws/CRProxy';
+    public const OPDOIRA_WS_RESPONSE_OK  = 200;
 
     /** HTTP authentication credentials. */
     public array $_auth;
 
-    /** The mEDRA web service endpoint. */
+    /** The OP DOI RA web service endpoint. */
     public string $_endpoint;
 
     /**
@@ -45,7 +45,7 @@ class MedraWebservice
     }
 
     /**
-     * mEDRA upload operation.
+     * OP DOI RA upload operation.
      *
      * @return bool|string True for success, an error message otherwise.
     */
@@ -58,7 +58,7 @@ class MedraWebservice
     }
 
     /**
-     * mEDRA deposit operation, includes the deposit to Crossref.
+     * OP DOI RA deposit operation, includes the deposit to Crossref.
      *
      * @return bool|string True for success, an error message otherwise.
      */
@@ -73,7 +73,7 @@ class MedraWebservice
     }
 
     /**
-     * mEDRA viewMetadata operation
+     * OP DOI RA viewMetadata operation
      */
     function viewMetadata($doi): bool|string
     {
@@ -124,7 +124,7 @@ class MedraWebservice
                 'headers' => [
                     'SOAPAction' => $action,
                     'Content-Type' => $contentType,
-                    'UserAgent' => 'OJS-mEDRA',
+                    'UserAgent' => 'OJS-OP DOI RA',
                 ],
                 'body' => $request,
             ]);
@@ -136,14 +136,14 @@ class MedraWebservice
                 $document->loadXml($exceptionResponseContent);
                 $faultstring = $document->getElementsByTagName('faultstring');
                 if ($faultstring->length > 0) {
-                    $result = 'mEDRA: ' . $e->getResponse()->getStatusCode() . ' - ' . $faultstring->item(0)->textContent;
+                    $result = 'OP DOI RA: ' . $e->getResponse()->getStatusCode() . ' - ' . $faultstring->item(0)->textContent;
                 }
             }
             return $result;
         }
 
-        if (($status = $response->getStatusCode()) != self::MEDRA_WS_RESPONSE_OK) {
-            $result = 'OJS-mEDRA: Expected ' . self::MEDRA_WS_RESPONSE_OK . ' response code, got ' . $status . ' instead.';
+        if (($status = $response->getStatusCode()) != self::OPDOIRA_WS_RESPONSE_OK) {
+            $result = 'OJS-OP DOI RA: Expected ' . self::OPDOIRA_WS_RESPONSE_OK . ' response code, got ' . $status . ' instead.';
         } else {
             $responseContent = $response->getBody()->getContents();
             if (!$attachment && $action == 'viewMetadata') {

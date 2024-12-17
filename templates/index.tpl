@@ -1,5 +1,5 @@
 {**
- * @file plugins/generic/medra/templates/index.tpl
+ * @file plugins/generic/opdoira/templates/index.tpl
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2003-2024 John Willinsky

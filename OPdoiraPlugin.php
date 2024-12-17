@@ -1,25 +1,25 @@
 <?php
 
 /**
- * @file plugins/generic/medra/MedraPlugin.php
+ * @file plugins/generic/opdoira/OPdoiraPlugin.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2003-2024 John Willinsky
  * Distributed under The MIT License. For full terms see the file LICENSE.
  *
- * @class MedraPlugin
+ * @class OPdoiraPlugin
  *
- * @brief Plugin to let managers export, and deposit DOIs and metadata to mEDRA
+ * @brief Plugin to let managers export, and deposit DOIs and metadata to OP DOI RA
  *
  */
 
-namespace APP\plugins\generic\medra;
+namespace APP\plugins\generic\opdoira;
 
 use APP\core\Application;
 use APP\core\Services;
 use APP\facades\Repo;
 use APP\issue\Issue;
-use APP\plugins\generic\medra\classes\MedraSettings;
+use APP\plugins\generic\opdoira\classes\OPdoiraSettings;
 use APP\plugins\IDoiRegistrationAgency;
 use APP\submission\Submission;
 use Illuminate\Support\Collection;
@@ -33,17 +33,17 @@ use PKP\plugins\PluginRegistry;
 use PKP\services\PKPSchemaService;
 
 
-class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
+class OPdoiraPlugin extends GenericPlugin implements IDoiRegistrationAgency
 {
-    private ?MedraExportPlugin $_exportPlugin = null;
-    private MedraSettings $settingsObject;
+    private ?OPdoiraExportPlugin $_exportPlugin = null;
+    private OPdoiraSettings $settingsObject;
 
     /**
      * @see Plugin::getDisplayName()
      */
     public function getDisplayName()
     {
-        return __('plugins.generic.medra.displayName');
+        return __('plugins.generic.opdoira.displayName');
     }
 
     /**
@@ -51,7 +51,7 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
      */
     public function getDescription()
     {
-        return __('plugins.generic.medra.description');
+        return __('plugins.generic.opdoira.description');
     }
 
     /**
@@ -160,7 +160,7 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
     }
 
     /**
-     * Add properties for mEDRA to the DOI entity for storage in the database.
+     * Add properties for OP DOI RA to the DOI entity for storage in the database.
      *
      * @param string $hookName Schema::get::doi
      * @param array $args [
@@ -228,7 +228,7 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
      */
     public function getRegistrationAgencyName(): string
     {
-        return __('plugins.importexport.medra.registrationAgency.name');
+        return __('plugins.importexport.opdoira.registrationAgency.name');
     }
 
     /**
@@ -264,7 +264,7 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
     public function getSettingsObject(): RegistrationAgencySettings
     {
         if (!isset($this->settingsObject)) {
-            $this->settingsObject = new MedraSettings($this);
+            $this->settingsObject = new OPdoiraSettings($this);
         }
         return $this->settingsObject;
     }
@@ -305,7 +305,7 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
     }
 
     /**
-     * Adds mEDRA specific info to Repo::doi()->markRegistered()
+     * Adds OP DOI RA specific info to Repo::doi()->markRegistered()
      *
      * @param string $hookName Doi::markRegistered
      *
@@ -347,8 +347,8 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
      */
     private function _pluginInitialization()
     {
-        PluginRegistry::register('importexport', new MedraExportPlugin($this), $this->getPluginPath());
-        $this->_exportPlugin = PluginRegistry::getPlugin('importexport', 'MedraExportPlugin');
+        PluginRegistry::register('importexport', new OPdoiraExportPlugin($this), $this->getPluginPath());
+        $this->_exportPlugin = PluginRegistry::getPlugin('importexport', 'OPdoiraExportPlugin');
 
         Hook::add('DoiSettingsForm::setEnabledRegistrationAgencies', [$this, 'addAsRegistrationAgencyOption']);
         Hook::add('DoiSetupSettingsForm::getObjectTypes', [$this, 'addAllowedObjectTypes']);
@@ -367,12 +367,12 @@ class MedraPlugin extends GenericPlugin implements IDoiRegistrationAgency
         /** @var Installer $installer */
         $installer = $args[0];
         $version = $installer->getCurrentVersion();
-        if ($version->getProduct() == 'medra' && $version->getProductType() == 'plugins.generic') {
+        if ($version->getProduct() == 'opdoira' && $version->getProductType() == 'plugins.generic') {
             /** @var VersionDAO $versionDao */
             $versionDao = DAORegistry::getDAO('VersionDAO');
             $installedPluginVersion = $versionDao->getCurrentVersion($version->getProductType(), $version->getProduct());
             if (!$installedPluginVersion) {
-                $migration = new MedraDoiDataMigration($installer, $this);
+                $migration = new OPdoiraDoiDataMigration($installer, $this);
                 $migration->up();
             }
         }

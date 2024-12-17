@@ -1,24 +1,24 @@
 <?php
 
 /**
- * @file plugins/generic/medra/filter/IssueMedraXmlFilter.php
+ * @file plugins/generic/opdoira/filter/IssueOPdoiraXmlFilter.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2000-2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class IssueMedraXmlFilter
+ * @class IssueOPdoiraXmlFilter
  *
  * @brief Class that converts an Issue as work or manifestation to a O4DOI XML document.
  */
 
-namespace APP\plugins\generic\medra\filter;
+namespace APP\plugins\generic\opdoira\filter;
 
 use APP\core\Application;
 use APP\facades\Repo;
 use APP\issue\Issue;
 use APP\plugins\DOIPubIdExportPlugin;
-use APP\plugins\generic\medra\filter\O4DOIXmlFilter;
+use APP\plugins\generic\opdoira\filter\O4DOIXmlFilter;
 use APP\submission\Submission;
 use DOMDocument;
 use DOMElement;
@@ -28,13 +28,13 @@ use PKP\db\DAORegistry;
 use PKP\galley\Galley;
 use PKP\plugins\importexport\PKPNativeImportExportDeployment;
 
-class IssueMedraXmlFilter extends O4DOIXmlFilter {
+class IssueOPdoiraXmlFilter extends O4DOIXmlFilter {
     /**
      * Constructor
      * @param $filterGroup FilterGroup
      */
     function __construct($filterGroup) {
-        $this->setDisplayName('mEDRA XML issue export');
+        $this->setDisplayName('OP DOI RA XML issue export');
         parent::__construct($filterGroup);
     }
 
@@ -102,7 +102,7 @@ class IssueMedraXmlFilter extends O4DOIXmlFilter {
         $issueNode = $doc->createElementNS($deployment->getNamespace(), $issueNodeName);
         // Notification type (mandatory)
         $doi = $pubObject->getDoi();
-        $registeredDoi = $pubObject->getData('medra::registeredDoi');
+        $registeredDoi = $pubObject->getData('opdoira::registeredDoi');
         assert(empty($registeredDoi) || $registeredDoi == $doi);
         $notificationType = (empty($registeredDoi) ? self::O4DOI_NOTIFICATION_TYPE_NEW : self::O4DOI_NOTIFICATION_TYPE_UPDATE);
         $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'NotificationType', $notificationType));
@@ -122,7 +122,7 @@ class IssueMedraXmlFilter extends O4DOIXmlFilter {
         // Registrant (mandatory)
         $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrantName', htmlspecialchars($plugin->getSetting($context->getId(), 'registrantName'), ENT_COMPAT, 'UTF-8')));
         // Registration authority (mandatory)
-        $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'mEDRA'));
+        $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'OP DOI RA'));
         // Work/ProductIdentifier - proprietary ID
         $pubObjectProprietaryId = $context->getId() . '-' . $pubObject->getId();
         $workOrProduct = $this->isWork($context, $plugin) ? 'Work' : 'Product';

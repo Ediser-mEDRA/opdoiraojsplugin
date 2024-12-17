@@ -2,7 +2,7 @@
 <!DOCTYPE filterConfig SYSTEM "../../../../lib/pkp/dtd/filterConfig.dtd">
 
 <!--
-  * plugins/generic/medra/filter/filterConfig.xml
+  * plugins/generic/opdoira/filter/filterConfig.xml
   *
   * Copyright (c) 2014-2024 Simon Fraser University
   * Copyright (c) 2003-2024 John Willinsky
@@ -12,31 +12,31 @@
   -->
 <filterConfig>
     <filterGroups>
-        <!-- mEDRA XML issue output -->
+        <!-- OP DOI RA XML issue output -->
         <filterGroup
-            symbolic="issue=>medra-xml"
-            displayName="plugins.importexport.medra.displayName"
-            description="plugins.importexport.medra.description"
+            symbolic="issue=>opdoira-xml"
+            displayName="plugins.importexport.opdoira.displayName"
+            description="plugins.importexport.opdoira.description"
             inputType="class::classes.issue.Issue[]"
-            outputType="xml::schema(http://www.medra.org/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
-        <!-- mEDRA XML article output -->
+            outputType="xml::schema(http://ra.publications.europa.eu/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
+        <!-- OP DOI RA XML article output -->
         <filterGroup
-            symbolic="article=>medra-xml"
-            displayName="plugins.importexport.medra.displayName"
-            description="plugins.importexport.medra.description"
+            symbolic="article=>opdoira-xml"
+            displayName="plugins.importexport.opdoira.displayName"
+            description="plugins.importexport.opdoira.description"
             inputType="class::classes.submission.Submission[]"
-            outputType="xml::schema(http://www.medra.org/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
+            outputType="xml::schema(http://ra.publications.europa.eu/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
     </filterGroups>
     <filters>
-        <!-- mEDRA XML issue output -->
+        <!-- OP DOI RA XML issue output -->
         <filter
-            inGroup="issue=>medra-xml"
-            class="APP\plugins\generic\medra\filter\IssueMedraXmlFilter"
+            inGroup="issue=>opdoira-xml"
+            class="APP\plugins\generic\opdoira\filter\IssueOPdoiraXmlFilter"
             isTemplate="0" />
-        <!-- mEDRA XML article output -->
+        <!-- OP DOI RA XML article output -->
         <filter
             inGroup="article=>medra-xml"
-            class="APP\plugins\generic\medra\filter\ArticleMedraXmlFilter"
+            class="APP\plugins\generic\opdoira\filter\ArticleOPdoiraXmlFilter"
             isTemplate="0" />
     </filters>
 </filterConfig>

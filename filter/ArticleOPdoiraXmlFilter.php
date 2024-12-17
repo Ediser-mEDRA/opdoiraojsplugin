@@ -1,18 +1,18 @@
 <?php
 
 /**
- * @file plugins/generic/medra/filter/ArticleMedraXmlFilter.php
+ * @file plugins/generic/opdoira/filter/ArticleOPdoiraXmlFilter.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2000-2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class ArticleMedraXmlFilter
+ * @class ArticleOPdoiraXmlFilter
  *
  * @brief Class that converts an Article as work to a O4DOI XML document.
  */
 
-namespace APP\plugins\generic\medra\filter;
+namespace APP\plugins\generic\opdoira\filter;
 
 use APP\author\Author;
 use APP\core\Application;
@@ -20,7 +20,7 @@ use APP\core\Services;
 use APP\facades\Repo;
 use APP\issue\Issue;
 use APP\plugins\DOIPubIdExportPlugin;
-use APP\plugins\generic\medra\filter\O4DOIXmlFilter;
+use APP\plugins\generic\opdoira\filter\O4DOIXmlFilter;
 use APP\submission\Submission;
 use DOMDocument;
 use DOMElement;
@@ -33,7 +33,7 @@ use PKP\plugins\importexport\PKPNativeImportExportDeployment;
 use PKP\submission\GenreDAO;
 
 
-class ArticleMedraXmlFilter extends O4DOIXmlFilter
+class ArticleOPdoiraXmlFilter extends O4DOIXmlFilter
 {
 
     /**
@@ -43,7 +43,7 @@ class ArticleMedraXmlFilter extends O4DOIXmlFilter
     function __construct($filterGroup)
     {
         parent::__construct($filterGroup);
-        $this->setDisplayName('mEDRA XML article export');
+        $this->setDisplayName('OP DOI RA XML article export');
     }
 
     /**
@@ -109,7 +109,7 @@ class ArticleMedraXmlFilter extends O4DOIXmlFilter
             /** @var Submission $article */
             $article = $pubObject;
             $doi = $article->getCurrentPublication()->getDoi();
-            $registeredDoi = $article->getCurrentPublication()->getData('medra::registeredDoi');
+            $registeredDoi = $article->getCurrentPublication()->getData('opdoira::registeredDoi');
             if (!$cache->isCached('articles', $article->getId())) {
                 $cache->add($article, null);
             }
@@ -120,7 +120,7 @@ class ArticleMedraXmlFilter extends O4DOIXmlFilter
             /** @var Galley $galley */
             $galley = $pubObject;
             $doi = $pubObject->getDoi();
-            $registeredDoi = $pubObject->getData('medra::registeredDoi');
+            $registeredDoi = $pubObject->getData('opdoira::registeredDoi');
             $publication = Repo::publication()->get($galley->getData('publicationId'));
             if ($cache->isCached('articles', $publication->getData('submissionId'))) {
                 /** @var Submission $article */
@@ -213,7 +213,7 @@ class ArticleMedraXmlFilter extends O4DOIXmlFilter
         // Registrant (mandatory)
         $articleNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrantName', htmlspecialchars($plugin->getSetting($context->getId(), 'registrantName'), ENT_COMPAT, 'UTF-8')));
         // Registration authority (mandatory)
-        $articleNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'mEDRA'));
+        $articleNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'OP DOI RA'));
         // WorkIdentifier - proprietary ID
         $pubObjectProprietaryId = $context->getId() . '-' . $article->getCurrentPublication()->getData('issueId') . '-' . $article->getId();
         if ($galley) $pubObjectProprietaryId .= '-g' . $galley->getId();
@@ -533,13 +533,13 @@ class ArticleMedraXmlFilter extends O4DOIXmlFilter
     {
         /** @var PKPNativeImportExportDeployment $deployment */
         $deployment = $this->getDeployment();
-        $medraCitationNamespace = 'http://www.medra.org/DOIMetadata/2.0/Citations';
+        $opdoiraCitationNamespace = 'http://www.medra.org/DOIMetadata/2.0/Citations';
         $citationListNode = $doc->createElementNS($deployment->getNamespace(), 'cl:CitationList');
-        $citationListNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:cl', $medraCitationNamespace);
+        $citationListNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:cl', $opdoiraCitationNamespace);
         foreach($parsedCitations as $citation) {
-            $articleCitationNode = $doc->createElementNS($medraCitationNamespace, 'ArticleCitation');
+            $articleCitationNode = $doc->createElementNS($opdoiraCitationNamespace, 'ArticleCitation');
             $articleCitationNode->setAttribute('key', $pubObjectDoi . '_ref' . $citation->getData('seq'));
-            $unstructuredCitationNode = $doc->createElementNS($medraCitationNamespace, 'UnstructuredCitation');
+            $unstructuredCitationNode = $doc->createElementNS($opdoiraCitationNamespace, 'UnstructuredCitation');
             $unstructuredCitationNode->appendChild($doc->createTextNode($citation->getData('rawCitation')));
             $articleCitationNode->appendChild($unstructuredCitationNode);
             $citationListNode->appendChild($articleCitationNode);

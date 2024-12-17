@@ -1,49 +1,49 @@
 <?php
 
 /**
- * @file plugins/importexport/medra/tests/classes/MedraWebserviceTest.php
+ * @file plugins/importexport/opdoira/tests/classes/OPdoiraWebserviceTest.php
  *
  * Copyright (c) 2014-2024 Simon Fraser University
  * Copyright (c) 2000-2024 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class MedraWebserviceTest
- * @ingroup plugins_importexport_medra_tests_classes
- * @see MedraWebserviceTest
+ * @class OPdoiraWebserviceTest
+ * @ingroup plugins_importexport_opdoira_tests_classes
+ * @see OPdoiraWebserviceTest
  *
- * @brief Test class for MedraWebservice.
+ * @brief Test class for OPdoiraWebservice.
  */
 
 use PKP\tests\PKPTestCase;
-use APP\plugins\generic\medra\classes\MedraWebservice;
+use APP\plugins\generic\medra\classes\OPdoiraWebservice;
 use PKP\config\Config;
 
-class MedraWebserviceTest extends PKPTestCase {
+class OPdoiraWebserviceTest extends PKPTestCase {
     private $ws;
 
     protected function setUp() : void {
         // Retrieve and check configuration.
-        $medraPassword = Config::getVar('debug', 'webtest_medra_pw');
+        $opdoiraPassword = Config::getVar('debug', 'webtest_medra_pw');
         if (empty($medraPassword)) {
             $this->markTestSkipped(
-                'Please set webtest_medra_pw in your config.php\'s ' .
+                'Please set webtest_opdoira_pw in your config.php\'s ' .
                 '[debug] section to the password of your Medra test account.'
             );
         }
 
-        $this->ws = new MedraWebservice(MedraWebservice::MEDRA_WS_ENDPOINT_DEV, 'TEST_OJS', $medraPassword);
+        $this->ws = new OPdoiraWebservice(OPdoiraWebservice::OPDOIRA_WS_ENDPOINT_DEV, 'TEST_OJS', $opdoiraPassword);
         parent::setUp();
     }
 
     /**
-     * @covers MedraWebservice
+     * @covers OPdoiraWebservice
      */
     public function testUpload() {
         self::assertTrue($this->ws->upload($this->getTestData()));
     }
 
     /**
-     * @covers MedraWebservice
+     * @covers OPdoiraWebservice
      */
     public function testUploadWithError() {
         $metadata = str_replace('SerialVersion', 'UnknownElement', $this->getTestData());
@@ -54,7 +54,7 @@ class MedraWebserviceTest extends PKPTestCase {
     }
 
     /**
-     * @covers MedraWebservice
+     * @covers OPdoiraWebservice
      */
     public function testViewMetadata() {
         $dom = new DOMDocument('1.0', 'utf-8');
@@ -78,7 +78,7 @@ class MedraWebserviceTest extends PKPTestCase {
      * @return string
      */
     private function getTestData() {
-        $sampleFile = './plugins/generic/medra/tests/functional/serial-issue-as-work.xml';
+        $sampleFile = './plugins/generic/opdoira/tests/functional/serial-issue-as-work.xml';
         return file_get_contents($sampleFile);
     }
 }
