@@ -122,7 +122,7 @@ class IssueOPdoiraXmlFilter extends O4DOIXmlFilter {
         // Registrant (mandatory)
         $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrantName', htmlspecialchars($plugin->getSetting($context->getId(), 'registrantName'), ENT_COMPAT, 'UTF-8')));
         // Registration authority (mandatory)
-        $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'OP DOI RA'));
+        $issueNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'OP'));
         // Work/ProductIdentifier - proprietary ID
         $pubObjectProprietaryId = $context->getId() . '-' . $pubObject->getId();
         $workOrProduct = $this->isWork($context, $plugin) ? 'Work' : 'Product';

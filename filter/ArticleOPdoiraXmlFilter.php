@@ -213,7 +213,7 @@ class ArticleOPdoiraXmlFilter extends O4DOIXmlFilter
         // Registrant (mandatory)
         $articleNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrantName', htmlspecialchars($plugin->getSetting($context->getId(), 'registrantName'), ENT_COMPAT, 'UTF-8')));
         // Registration authority (mandatory)
-        $articleNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'OP DOI RA'));
+        $articleNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'RegistrationAuthority', 'OP'));
         // WorkIdentifier - proprietary ID
         $pubObjectProprietaryId = $context->getId() . '-' . $article->getCurrentPublication()->getData('issueId') . '-' . $article->getId();
         if ($galley) $pubObjectProprietaryId .= '-g' . $galley->getId();

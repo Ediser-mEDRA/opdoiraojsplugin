@@ -18,14 +18,14 @@
             displayName="plugins.importexport.opdoira.displayName"
             description="plugins.importexport.opdoira.description"
             inputType="class::classes.issue.Issue[]"
-            outputType="xml::schema(http://ra.publications.europa.eu/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
+            outputType="xml::schema(http://ra-publications-dev.medra.org/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
         <!-- OP DOI RA XML article output -->
         <filterGroup
             symbolic="article=>opdoira-xml"
             displayName="plugins.importexport.opdoira.displayName"
             description="plugins.importexport.opdoira.description"
             inputType="class::classes.submission.Submission[]"
-            outputType="xml::schema(http://ra.publications.europa.eu/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
+            outputType="xml::schema(http://ra-publications-dev.medra.org/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd)" />
     </filterGroups>
     <filters>
         <!-- OP DOI RA XML issue output -->
@@ -35,7 +35,7 @@
             isTemplate="0" />
         <!-- OP DOI RA XML article output -->
         <filter
-            inGroup="article=>medra-xml"
+            inGroup="article=>opdoira-xml"
             class="APP\plugins\generic\opdoira\filter\ArticleOPdoiraXmlFilter"
             isTemplate="0" />
     </filters>
