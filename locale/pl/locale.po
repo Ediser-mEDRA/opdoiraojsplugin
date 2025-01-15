@@ -15,90 +15,90 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.9.1\n"
 
-msgid "plugins.importexport.medra.displayName"
-msgstr "Wtyczka eksportu/rejestracji mEDRA"
+msgid "plugins.importexport.opdoira.displayName"
+msgstr "Wtyczka eksportu/rejestracji OP DOI RA"
 
-msgid "plugins.importexport.medra.description"
-msgstr "Eksportuj metadane numeru, artykułu lub pliku w formacie Onix dla DOI (O4DOI) w agencji rejestrującej DOI: mEDRA."
+msgid "plugins.importexport.opdoira.description"
+msgstr "Eksportuj metadane numeru, artykułu lub pliku w formacie Onix dla DOI (O4DOI) w agencji rejestrującej DOI: OP DOI RA."
 
-msgid "plugins.importexport.medra.intro"
+msgid "plugins.importexport.opdoira.intro"
 msgstr ""
 "\n"
-"\t\tJeżeli chcesz zarejestrować DOI w mEDRA, postępuj zgodnie z poniższymi "
+"\t\tJeżeli chcesz zarejestrować DOI w OP DOI RA, postępuj zgodnie z poniższymi "
 "wskazówkami\n"
-"\t\t<a href=\"http://www.medra.org/en/guide.htm\" target=\"_blank\">strona "
-"mEDRA</a>\n"
+"\t\t<a href=\"https://ra.publications.europa.eu/doi_howto.htm\" target=\"_blank\">strona "
+"OP DOI RA</a>\n"
 "\t\taby uzyskać nazwę użytkownika i hasło. Jeżeli nie posiadasz nazwy "
-"użytkownika i hasła nadal możesz eksportować dane w formacie mEDRA XML (Onix "
+"użytkownika i hasła nadal możesz eksportować dane w formacie OP DOI RA XML (Onix "
 "dla DOI)\n"
-"\t\tale nie możesz zarejestrować DOI w mEDRA z poziomu OJS.\n"
+"\t\tale nie możesz zarejestrować DOI w OP DOI RA z poziomu OJS.\n"
 "\t"
 
-msgid "plugins.importexport.medra.settings.form.description"
-msgstr "Skonfiguruj wtyczkę eksportu mEDRA:"
+msgid "plugins.importexport.opdoira.settings.form.description"
+msgstr "Skonfiguruj wtyczkę eksportu OP DOI RA:"
 
-msgid "plugins.importexport.medra.settings.form.username"
+msgid "plugins.importexport.opdoira.settings.form.username"
 msgstr "Użytkownik"
 
-msgid "plugins.importexport.medra.settings.form.usernameRequired"
-msgstr "Wprowadź nazwę użytkownika mEDRA. Nazwa użytkownika nie może zawierać dwukropka."
+msgid "plugins.importexport.opdoira.settings.form.usernameRequired"
+msgstr "Wprowadź nazwę użytkownika OP DOI RA. Nazwa użytkownika nie może zawierać dwukropka."
 
-msgid "plugins.importexport.medra.settings.form.registrantName"
-msgstr "Nazwa instytucji zarejestrowanej w mEDRA"
+msgid "plugins.importexport.opdoira.settings.form.registrantName"
+msgstr "Nazwa instytucji zarejestrowanej w OP DOI RA"
 
-msgid "plugins.importexport.medra.settings.form.registrantNameRequired"
-msgstr "Wprowadź instytucję, która jest zarejestrowana w mEDRA."
+msgid "plugins.importexport.opdoira.settings.form.registrantNameRequired"
+msgstr "Wprowadź instytucję, która jest zarejestrowana w OP DOI RA."
 
-msgid "plugins.importexport.medra.settings.form.fromFields"
-msgstr "Osoba odpowiedzialna za kontakt z mEDRA w sprawach technicznych:"
+msgid "plugins.importexport.opdoira.settings.form.fromFields"
+msgstr "Osoba odpowiedzialna za kontakt z OP DOI RA w sprawach technicznych:"
 
-msgid "plugins.importexport.medra.settings.form.fromCompany"
+msgid "plugins.importexport.opdoira.settings.form.fromCompany"
 msgstr "Instytucja"
 
-msgid "plugins.importexport.medra.settings.form.fromCompanyRequired"
+msgid "plugins.importexport.opdoira.settings.form.fromCompanyRequired"
 msgstr "Wprowadź instytucje, która jest technicznie odpowiedzialna za ekspoert DOI (np. instytucję zapewniającą hosting serwera)."
 
-msgid "plugins.importexport.medra.settings.form.fromName"
+msgid "plugins.importexport.opdoira.settings.form.fromName"
 msgstr "Osoba do kontaktu"
 
-msgid "plugins.importexport.medra.settings.form.fromNameRequired"
+msgid "plugins.importexport.opdoira.settings.form.fromNameRequired"
 msgstr "Wprowadź osobę do kontaktu w sprawach technicznych."
 
-msgid "plugins.importexport.medra.settings.form.fromEmail"
+msgid "plugins.importexport.opdoira.settings.form.fromEmail"
 msgstr "E-mail"
 
-msgid "plugins.importexport.medra.settings.form.fromEmailRequired"
+msgid "plugins.importexport.opdoira.settings.form.fromEmailRequired"
 msgstr "Wprowadź e-mail osoby do kontaktu w sprawach technicznych."
 
-msgid "plugins.importexport.medra.settings.form.publicationCountry"
-msgstr "Wybierz kraj, który będzie podany jako 'publication country' w mEDRA."
+msgid "plugins.importexport.opdoira.settings.form.publicationCountry"
+msgstr "Wybierz kraj, który będzie podany jako 'publication country' w OP DOI RA."
 
 #, fuzzy
-msgid "plugins.importexport.medra.settings.form.exportIssuesAs"
-msgstr "Wybierz, czy chcesz eksportować numery jako <a href=\"http://www.medra.org/en/metadata_td.htm\" target=\"_blank\">'works' lub 'manifestations'</a>."
+msgid "plugins.importexport.opdoira.settings.form.exportIssuesAs"
+msgstr "Wybierz, czy chcesz eksportować numery jako <a href=\"https://ra.publications.europa.eu/metada_specs.htm\" target=\"_blank\">'works' lub 'manifestations'</a>."
 
-msgid "plugins.importexport.medra.settings.form.work"
+msgid "plugins.importexport.opdoira.settings.form.work"
 msgstr "praca"
 
-msgid "plugins.importexport.medra.settings.form.manifestation"
+msgid "plugins.importexport.opdoira.settings.form.manifestation"
 msgstr "deklaracja"
 
-msgid "plugins.importexport.medra.settings.form.exportIssuesAs.label"
+msgid "plugins.importexport.opdoira.settings.form.exportIssuesAs.label"
 msgstr "Numery eksportowane jako"
 
-msgid "plugins.importexport.medra.settings.form.automaticRegistration.description"
-msgstr "OJS zarejestruje przypisane DOI automatycznie w mEDRA. Zauważ, że zadanie to zostanie wykonane zaraz po publikacji. Może sprawdzić, czy wszystkie dane zostały zarejestrowane."
+msgid "plugins.importexport.opdoira.settings.form.automaticRegistration.description"
+msgstr "OJS zarejestruje przypisane DOI automatycznie w OP DOI RA. Zauważ, że zadanie to zostanie wykonane zaraz po publikacji. Może sprawdzić, czy wszystkie dane zostały zarejestrowane."
 
-msgid "plugins.importexport.medra.settings.form.testMode.description"
-msgstr "Wykorzystaj testowy API mEDRA (środowisko tekstowe) do rejestracji DOI. Nie zapomnij usunąć tej opcji przed produkcją."
+msgid "plugins.importexport.opdoira.settings.form.testMode.description"
+msgstr "Wykorzystaj testowy API OP DOI RA (środowisko tekstowe) do rejestracji DOI. Nie zapomnij usunąć tej opcji przed produkcją."
 
-msgid "plugins.importexport.medra.workOrProduct"
-msgstr "DOI przypisane do artykułów będzie eksportowane do mEDRA jako <a href=\"http://www.medra.org/en/metadata_td.htm\" target=\"_blank\">'works'</a>. DOIs przypisane do plików będzie eksportowane jako <a href=\"http://www.medra.org/en/metadata_td.htm\" target=\"_blank\">'manifestations'</a>."
+msgid "plugins.importexport.opdoira.workOrProduct"
+msgstr "DOI przypisane do artykułów będzie eksportowane do OP DOI RA jako <a href=\"https://ra.publications.europa.eu/metada_specs.htm\" target=\"_blank\">'works'</a>. DOIs przypisane do plików będzie eksportowane jako <a href=\"https://ra.publications.europa.eu/metada_specs.htm\" target=\"_blank\">'manifestations'</a>."
 
-msgid "plugins.importexport.medra.senderTask.name"
-msgstr "zadanie automatycznej rejestracji w mEDRA"
+msgid "plugins.importexport.opdoira.senderTask.name"
+msgstr "zadanie automatycznej rejestracji w OP DOI RA"
 
-msgid "plugins.importexport.medra.cliUsage"
+msgid "plugins.importexport.opdoira.cliUsage"
 msgstr ""
 "Użycie: \n"
 "{$scriptName} {$pluginName} export [xmlFileName] [journal_path] "
