@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Primož Svetek <primoz.svetek@gmail.com>, 2022.
 msgid ""
 msgstr ""

@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Studiorimau <studiorimau@gmail.com>, 2021.
 # Mohamad Shabilullah <shabilhamid91@gmail.com>, 2023.
 msgid ""

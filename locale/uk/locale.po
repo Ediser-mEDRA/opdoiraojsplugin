@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Petro Bilous <petrobilous@ukr.net>, 2022, 2023.
 msgid ""
 msgstr ""

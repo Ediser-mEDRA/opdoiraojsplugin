@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Jiří Dlouhý <jiri.dlouhy@czp.cuni.cz>, 2022.
 msgid ""
 msgstr ""

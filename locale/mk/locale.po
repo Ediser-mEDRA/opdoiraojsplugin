@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Teodora Fildishevska <t.fildishevska@gmail.com>, 2023.
 msgid ""
 msgstr ""

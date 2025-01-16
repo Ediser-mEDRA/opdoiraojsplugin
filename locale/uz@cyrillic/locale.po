@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Komronbek Tufliyev <komronbek773@gmail.com>, 2024.
 msgid ""
 msgstr ""

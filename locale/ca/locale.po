@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Jordi LC <jordi.lacruz@uab.cat>, 2022, 2024.
 msgid ""
 msgstr ""

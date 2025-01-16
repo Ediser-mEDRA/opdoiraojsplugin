@@ -1,3 +1,4 @@
+# Adapted Translation for OP DOI RA plugin. Based on
 # Diego José Macêdo <diegojmacedo@gmail.com>, 2022.
 # Ramón Martins Sodoma da Fonseca <ramon.ibict@gmail.com>, 2023.
 msgid ""
