@@ -239,7 +239,7 @@ class OPdoiraExportPlugin extends DOIPubIdExportPlugin
         $xml = file_get_contents($filename);
 
         // Get the current user locale to get the Crossref service validation error messages in that language
-        // Currently only supported: eng
+        // OP DOI RA Currently only supported: eng
         $language = 'eng';
         $supportedLanguages = array('eng');
         $user3LetterLang = LocaleConversion::get3LetterIsoFromLocale(Locale::getLocale());
