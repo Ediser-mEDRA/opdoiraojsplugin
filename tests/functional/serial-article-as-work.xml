@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ONIXDOISerialArticleWorkRegistrationMessage xmlns="http://www.editeur.org/onix/DOIMetadata/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.editeur.org/onix/DOIMetadata/2.0 http://www.medra.org/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd">
+<ONIXDOISerialArticleWorkRegistrationMessage xmlns="http://www.editeur.org/onix/DOIMetadata/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.editeur.org/onix/DOIMetadata/2.0 http://ra.publications.europa.eu/schema/onix/DOIMetadata/2.0/ONIX_DOIMetadata_2.0.xsd">
   <Header>
     <FromCompany>From Company</FromCompany>
     <FromPerson>From Person</FromPerson>

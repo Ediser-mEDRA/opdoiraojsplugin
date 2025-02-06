@@ -180,7 +180,7 @@ class OPdoiraWebservice
      */
     function _getContentId(string $prefix): string
     {
-        return $prefix . md5(uniqid()) . '@medra.org';
+        return $prefix . md5(uniqid()) . '@publications.europa.eu';
     }
 
     /**
