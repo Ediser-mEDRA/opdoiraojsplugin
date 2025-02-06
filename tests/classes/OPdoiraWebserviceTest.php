@@ -27,7 +27,7 @@ class OPdoiraWebserviceTest extends PKPTestCase {
         if (empty($medraPassword)) {
             $this->markTestSkipped(
                 'Please set webtest_opdoira_pw in your config.php\'s ' .
-                '[debug] section to the password of your Medra test account.'
+                '[debug] section to the password of your opdoira test account.'
             );
         }
 

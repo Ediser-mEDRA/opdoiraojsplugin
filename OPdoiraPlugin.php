@@ -63,7 +63,7 @@ class OPdoiraPlugin extends GenericPlugin implements IDoiRegistrationAgency
     {
         $success = parent::register($category, $path, $mainContextId);
         if ($success) {
-            Hook::add('Installer::preInstall', [$this, 'preInstall']);
+            //Hook::add('Installer::preInstall', [$this, 'preInstall']);
             // If the system isn't installed, or is performing an upgrade, don't
             // register hooks. This will prevent DB access attempts before the
             // schema is installed.
@@ -362,20 +362,20 @@ class OPdoiraPlugin extends GenericPlugin implements IDoiRegistrationAgency
      *
      * @param string $hookName Installer::preInstall
      */
-    public function preInstall($hookName, $args)
-    {
-        /** @var Installer $installer */
-        $installer = $args[0];
-        $version = $installer->getCurrentVersion();
-        if ($version->getProduct() == 'opdoira' && $version->getProductType() == 'plugins.generic') {
-            /** @var VersionDAO $versionDao */
-            $versionDao = DAORegistry::getDAO('VersionDAO');
-            $installedPluginVersion = $versionDao->getCurrentVersion($version->getProductType(), $version->getProduct());
-            if (!$installedPluginVersion) {
-                $migration = new OPdoiraDoiDataMigration($installer, $this);
-                $migration->up();
-            }
-        }
-        return HOOK::CONTINUE;
-    }
+//     public function preInstall($hookName, $args)
+//     {
+//         /** @var Installer $installer */
+//         $installer = $args[0];
+//         $version = $installer->getCurrentVersion();
+//         if ($version->getProduct() == 'opdoira' && $version->getProductType() == 'plugins.generic') {
+//             /** @var VersionDAO $versionDao */
+//             $versionDao = DAORegistry::getDAO('VersionDAO');
+//             $installedPluginVersion = $versionDao->getCurrentVersion($version->getProductType(), $version->getProduct());
+//             if (!$installedPluginVersion) {
+//                 $migration = new OPdoiraDoiDataMigration($installer, $this);
+//                 $migration->up();
+//             }
+//         }
+//         return HOOK::CONTINUE;
+//     }
 }

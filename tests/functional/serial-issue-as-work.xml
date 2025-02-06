@@ -4,7 +4,7 @@
     <FromCompany>From Company</FromCompany>
     <FromPerson>From Person</FromPerson>
     <FromEmail>from@email.com</FromEmail>
-    <ToCompany>mEDRA</ToCompany>
+    <ToCompany>OP</ToCompany>
     <SentDate>202101261419</SentDate>
     <MessageNote>This dataset was exported with ojs2, version 3.3.0.1.</MessageNote>
   </Header>
@@ -14,7 +14,7 @@
     <DOIWebsiteLink>http://example.com/index.php/publicknowledge/issue/view/1</DOIWebsiteLink>
     <DOIStructuralType>Abstraction</DOIStructuralType>
     <RegistrantName>From Company</RegistrantName>
-    <RegistrationAuthority>mEDRA</RegistrationAuthority>
+    <RegistrationAuthority>OP</RegistrationAuthority>
     <WorkIdentifier>
       <WorkIDType>01</WorkIDType>
       <IDValue>1-1</IDValue>
