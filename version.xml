@@ -13,7 +13,7 @@
 <version>
   <application>opdoira</application>
   <type>plugins.generic</type>
-  <release>1.0.0.1</release>
+  <release>1.0.0.0</release>
   <date>2025-02-07</date>
   <class>OPdoiraPlugin</class>
 </version>
