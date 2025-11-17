@@ -22,6 +22,7 @@ use APP\issue\Issue;
 use APP\plugins\DOIPubIdExportPlugin;
 use APP\plugins\generic\opdoira\filter\O4DOIXmlFilter;
 use APP\submission\Submission;
+use APP\journal\Journal;
 use DOMDocument;
 use DOMElement;
 use PKP\context\Context;
@@ -220,12 +221,12 @@ class ArticleOPdoiraXmlFilter extends O4DOIXmlFilter
         }
         // access Rights, license URL
 		$accessRights = null;
-		if ($context->getData('publishingMode') == PUBLISHING_MODE_OPEN) {
+		if ($context->getData('publishingMode') == Journal::PUBLISHING_MODE_OPEN) {
 			$accessRights = 'openAccess';
-		} else if ($context->getData('publishingMode') == PUBLISHING_MODE_SUBSCRIPTION) {
-			if ($issue->getAccessStatus() == ISSUE_ACCESS_OPEN) {
+		} else if ($context->getData('publishingMode') == Journal::PUBLISHING_MODE_SUBSCRIPTION) {
+			if ($issue->getAccessStatus() == Issue::ISSUE_ACCESS_OPEN) {
 				$accessRights = 'openAccess';
-			} else if ($article->getCurrentPublication()->getData('accessStatus') == ARTICLE_ACCESS_OPEN) {
+			} else if ($article->getCurrentPublication()->getData('accessStatus') == Submission::ARTICLE_ACCESS_OPEN) {
 				$accessRights = 'openAccess';
 			}
 		}
@@ -329,7 +330,7 @@ class ArticleOPdoiraXmlFilter extends O4DOIXmlFilter
         $keywords = $this->getPrimaryTranslation($allKeywords, $objectLocalePrecedence);
         if (!empty($keywords)) {
             foreach ($keywords as $keyword) {
-                $contentItemNode->appendChild($this->createSubjectNode($doc, self::O4DOI_SUBJECT_SCHEME_PUBLISHER, $keyword));
+                $contentItemNode->appendChild($this->createSubjectNode($doc, self::O4DOI_SUBJECT_SCHEME_KEYWORDS, $keyword));
             }
         }
         // Object Description 'OtherText'
@@ -464,10 +465,19 @@ class ArticleOPdoiraXmlFilter extends O4DOIXmlFilter
         }
         // Affiliation
         $affiliation = $this->getPrimaryTranslation($author->getAffiliation(null), $objectLocalePrecedence);
-        if (!empty($affiliation)) {
+		// Institution ROR
+        $institution = $author->getData('rorId');
+        if (!empty($affiliation) || !empty($institution)) {
             $affiliationNode = $doc->createElementNS($deployment->getNamespace(), 'ProfessionalAffiliation');
-            $affiliationNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'Affiliation', htmlspecialchars($affiliation, ENT_COMPAT, 'UTF-8')));
-            $contributorNode->appendChild($affiliationNode);
+			if (!empty($affiliation)) {
+            	$affiliationNode->appendChild($node = $doc->createElementNS($deployment->getNamespace(), 'Affiliation', htmlspecialchars($affiliation, ENT_COMPAT, 'UTF-8')));
+			}
+			if (!empty($institution)) {
+                $institutionNode = $doc->createElementNS($deployment->getNamespace(), 'InstitutionIdentifier', htmlspecialchars($institution, ENT_COMPAT, 'UTF-8'));
+                $institutionNode->setAttribute('type', 'ror');
+                $affiliationNode->appendChild($institutionNode);
+            }
+			$contributorNode->appendChild($affiliationNode);
         }
         // Biographical note
         $bioNote = $this->getPrimaryTranslation($author->getBiography(null), $objectLocalePrecedence);
