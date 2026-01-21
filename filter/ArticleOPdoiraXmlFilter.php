@@ -257,7 +257,6 @@ class ArticleOPdoiraXmlFilter extends O4DOIXmlFilter
         $articleNode->appendChild($this->createSerialPublicationNode($doc, $journalLocalePrecedence, $epubFormat));
         // Journal Issue (mandatory)
         $articleNode->appendChild($this->createJournalIssueNode($doc, $issue, $journalLocalePrecedence));
-
         // Object locale precedence.
         $objectLocalePrecedence = $this->getObjectLocalePrecedence($context, $article, $galley);
         // Content Item (mandatory for articles)
